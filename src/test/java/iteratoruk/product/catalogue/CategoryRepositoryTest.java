@@ -17,10 +17,12 @@ package iteratoruk.product.catalogue;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.validation.ValidationException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +51,7 @@ class CategoryRepositoryTest {
   @DisplayName("should return saved category when find by ID")
   void shouldReturnSavedCategory_whenFindById() {
     // given
-    Category c = Category.builder().name("Books").build();
+    Category c = Category.builder().name("foo-bar_baz").build();
     em.persist(c);
     // when
     Category found = repo.findById(c.getId()).get();
@@ -71,5 +73,26 @@ class CategoryRepositoryTest {
     List<Category> found = repo.findAll();
     // then
     assertThat(found).containsOnly(categories.toArray(new Category[0]));
+  }
+
+  @Test
+  @DisplayName("should throw given name containing spaces when save")
+  void shouldThrow_givenNameContainingSpaces_whenSave() {
+    invalidCategoryTest(Category.builder().name("This is an invalid name").build());
+  }
+
+  @Test
+  @DisplayName("should throw given name containing non-alphanumeric characters when save")
+  void shouldThrow_givenNameContainingNonAlphanumericCharacters_whenSave() {
+    invalidCategoryTest(Category.builder().name("Thi$ is @n |nvalid n%me").build());
+  }
+
+  private void invalidCategoryTest(Category category) {
+    repo.save(category);
+    assertThrows(
+        ValidationException.class,
+        () -> {
+          em.flush();
+        });
   }
 }

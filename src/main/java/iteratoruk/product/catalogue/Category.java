@@ -19,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,5 +39,6 @@ public class Category {
 
   @NotBlank
   @Length(max = 255)
+  @Pattern(regexp = "^[-a-zA-Z0-9_]+$")
   private String name;
 }
