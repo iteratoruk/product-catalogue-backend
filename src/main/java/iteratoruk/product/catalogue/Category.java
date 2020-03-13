@@ -15,22 +15,28 @@
  */
 package iteratoruk.product.catalogue;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.support.GenericApplicationContext;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@SpringBootTest
-class AppTest {
+import org.hibernate.validator.constraints.Length;
 
-  @Autowired private GenericApplicationContext ctx;
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class Category {
 
-  @Test
-  @DisplayName("application should not fail on startup")
-  void shouldRun_whenStart() {
-    assertThat(ctx.isRunning()).isTrue();
-  }
+  @Id @GeneratedValue private Long id;
+
+  @NotBlank
+  @Length(max = 255)
+  private String name;
 }

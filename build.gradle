@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'com.diffplug.gradle.spotless' version '3.27.2'
+	id 'com.adarshr.test-logger' version '2.0.0'
 	id 'java'
 }
 
@@ -41,6 +42,10 @@ dependencies {
 	}
 }
 
+test {
+	useJUnitPlatform {}
+}
+
 spotless {
 	java {
 		googleJavaFormat()
@@ -48,4 +53,5 @@ spotless {
 		importOrder 'java', 'javax', 'com', 'org'
 		trimTrailingWhitespace()
 	}
+	sql {}
 }

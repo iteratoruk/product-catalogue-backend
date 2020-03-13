@@ -15,22 +15,8 @@
  */
 package iteratoruk.product.catalogue;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.support.GenericApplicationContext;
-
-@SpringBootTest
-class AppTest {
-
-  @Autowired private GenericApplicationContext ctx;
-
-  @Test
-  @DisplayName("application should not fail on startup")
-  void shouldRun_whenStart() {
-    assertThat(ctx.isRunning()).isTrue();
-  }
-}
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, Long> {}
